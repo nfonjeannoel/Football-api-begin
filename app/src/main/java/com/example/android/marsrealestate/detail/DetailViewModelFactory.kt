@@ -20,17 +20,17 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.marsrealestate.network.FootballProperty
+import com.example.android.marsrealestate.network.Responses
 
 /**
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.
  */
 class DetailViewModelFactory(
-    private val footballProperty: FootballProperty,
-    private val application: Application) : ViewModelProvider.Factory {
+    private val response : Responses) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(footballProperty, application) as T
+            return DetailViewModel(response) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

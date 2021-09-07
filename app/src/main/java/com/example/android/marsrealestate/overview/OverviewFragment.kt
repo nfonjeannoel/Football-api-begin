@@ -20,9 +20,14 @@ package com.example.android.marsrealestate.overview
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.databinding.FragmentOverviewBinding
+import com.example.android.marsrealestate.network.MarsApi
+import com.example.android.marsrealestate.network.Responses
 
 /**
  * This fragment shows the the status of the Mars real-estate web services transaction.
@@ -32,9 +37,9 @@ class OverviewFragment : Fragment() {
     /**
      * Lazily initialize our [OverviewViewModel].
      */
-    private val viewModel: OverviewViewModel by lazy {
-        ViewModelProvider(this).get(OverviewViewModel::class.java)
-    }
+    private lateinit var viewModel : OverviewViewModel
+    private lateinit var adapter: PhotoGridAdapter
+    private lateinit var binding: FragmentOverviewBinding
 
     /**
      * Inflates the layout with Data Binding, sets its lifecycle owner to the OverviewFragment
@@ -42,7 +47,10 @@ class OverviewFragment : Fragment() {
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentOverviewBinding.inflate(inflater)
+        binding = FragmentOverviewBinding.inflate(inflater)
+
+
+        viewModel = ViewModelProvider(this).get(OverviewViewModel::class.java)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
@@ -54,6 +62,20 @@ class OverviewFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = PhotoGridAdapter(MatchClickListener {
+            findNavController().navigate(
+                OverviewFragmentDirections.actionShowDetail(it)
+            )
+        })
+        binding.rvGames.adapter = adapter
+        viewModel.responses.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+    }
+
     /**
      * Inflates the overflow menu that contains filtering options.
      */
@@ -61,4 +83,25 @@ class OverviewFragment : Fragment() {
         inflater.inflate(R.menu.overflow_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.mi_refresh -> viewModel.getFootballProperties()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
+
+class MatchClickListener(val clickListener : (Response : Responses) -> Unit){
+    fun onClick(responses: Responses) = clickListener(responses)
+}
+
+
+
+
+
+
+
+
+

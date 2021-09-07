@@ -50,20 +50,20 @@ class OverviewViewModel : ViewModel() {
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
     init {
-        getMarsRealEstateProperties()
+        getFootballProperties()
 //        setValues()
     }
 
     /**
      * Sets the value of the status LiveData to the Mars API status.
      */
-    private fun getMarsRealEstateProperties() {
+    fun getFootballProperties() {
        viewModelScope.launch {
            try {
                val apiResults = MarsApi.RETROFIT_SERVICE.getProperties()
                _allResponse.value = apiResults.toString()
-               _response.value = apiResults.responses
-               _teams.value = apiResults.responses?.get(0)?.teams
+               _response.value = apiResults.response
+               _teams.value = apiResults.response?.get(0)?.teams
            } catch (e :Exception){
                _allResponse.value = "failed ${e.message}"
            }
@@ -72,40 +72,4 @@ class OverviewViewModel : ViewModel() {
 }
 
 
-//    private val _properties = MutableLiveData<MarsProperty?>()
-//    val properties: LiveData<MarsProperty?>
-//        get() = _properties
-//
-//
-//    private val _fixtures = MutableLiveData<Fixture?>()
-//    val fixtures: LiveData<Fixture?>
-//        get() = _fixtures
-//
-//    private val _league = MutableLiveData<League?>()
-//    val league: LiveData<League?>
-//        get() = _league
-//
-//    private val _teams = MutableLiveData<Teams?>()
-//    val teams: LiveData<Teams?>
-//        get() = _teams
-//
-//    private val _goals = MutableLiveData<Goals?>()
-//    val goals: LiveData<Goals?>
-//        get() = _goals
-//
-//    private val _scores = MutableLiveData<Score?>()
-//    val scores: LiveData<Score?>
-//        get() = _scores
-//
-//    private val _events = MutableLiveData<List<Event?>>()
-//    val events: LiveData<List<Event?>>
-//        get() = _events
 
-//    fun setValues(){
-//        _fixtures.value = _properties.value?.response[]?.fixture
-//        _league.value = _properties.value?.response?.league
-//        _teams.value = _properties.value?.response?.teams
-//        _goals.value = _properties.value?.response?.goals
-//        _scores.value = _properties.value?.response?.score
-//        _events.value = _properties.value?.response?.events
-//    }

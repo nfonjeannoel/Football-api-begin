@@ -18,11 +18,21 @@ package com.example.android.marsrealestate.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.marsrealestate.network.FootballProperty
+import com.example.android.marsrealestate.network.Responses
 
 /**
  * The [ViewModel] that is associated with the [DetailFragment].
  */
-class DetailViewModel(@Suppress("UNUSED_PARAMETER")footballProperty: FootballProperty, app: Application) : AndroidViewModel(app) {
+class DetailViewModel( response : Responses ) : ViewModel() {
+    private var _response = MutableLiveData<Responses?>()
+    val  response : LiveData<Responses?>
+        get() = _response
+
+    init {
+        _response.value = response
+    }
 }

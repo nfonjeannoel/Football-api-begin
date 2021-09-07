@@ -17,23 +17,31 @@
 
 package com.example.android.marsrealestate.network
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+
+@Parcelize
 data class FootballProperty(
     val get : String?,
     val parameters : Parameters?,
     val errors : List<String>?,
     val results : Int?,
     val paging : Paging?,
-    val responses : List<Responses>?
-)
+    val response : List<Responses>?
+): Parcelable
+
+@Parcelize
 data class Paging(
     val current : Int?,
     val total : Int?
-)
-
+): Parcelable
+@Parcelize
 data class Parameters(
     val live : String?
-)
+): Parcelable
 
+@Parcelize
 data class Responses(
     val fixture : Fixture?,
     val league : League?,
@@ -41,8 +49,8 @@ data class Responses(
     val goals : Goals?,
     val score : Score?,
     val events : List<Event>?
-)
-
+): Parcelable
+@Parcelize
 data class Event(
     val time : Time?,
     val team: LiveTeams?,
@@ -51,29 +59,29 @@ data class Event(
     val type : String?,
     val detail : String?,
     val comments : String?
-)
-
+): Parcelable
+@Parcelize
 data class Assist(
     val id : Int?,
     val name: String?
-)
-
+): Parcelable
+@Parcelize
 data class Player(
     val id : Int?,
     val name: String?
-)
-
+): Parcelable
+@Parcelize
 data class LiveTeams(
     val id : Int?,
     val name : String?,
     val logo: String?
-)
-
+): Parcelable
+@Parcelize
 data class Time(
     val elapsed : Int?,
     val extra : Double?
-)
-
+): Parcelable
+@Parcelize
 data class Fixture(
     val id : Int?,
     val referee : String?,
@@ -83,25 +91,25 @@ data class Fixture(
     val periods : Periods?,
     val venue : Venue?,
     val status : Status?
-)
-
+): Parcelable
+@Parcelize
 data class Periods(
     val first : Double?,
     val second : Double?
-)
-
+): Parcelable
+@Parcelize
 data class Venue(
     val id : Int?,
     val name : String?,
     val city : String?
-)
-
+): Parcelable
+@Parcelize
 data class Status(
     val long : String?,
     val short : String?,
     val elapsed : Int?
-)
-
+): Parcelable
+@Parcelize
 data class League(
     val id : Int?,
     val name: String?,
@@ -110,36 +118,36 @@ data class League(
     val flag: String?,
     val season: Int?,
     val round: String?
-)
-
+): Parcelable
+@Parcelize
 data class Teams(
     val home : HomeAway?,
     val away  : HomeAway?
-)
-
+): Parcelable
+@Parcelize
 data class HomeAway(
     val id: Int?,
     val name: String?,
     val logo: String?,
     val winner: Boolean?
-)
-
+): Parcelable
+@Parcelize
 data class Goals(
-    val home : Double?,
-    val away : Double?
-)
-
+    val home : Int?,
+    val away : Int?
+): Parcelable
+@Parcelize
 data class Score(
     val halftime : TimeScore?,
     val fulltime : TimeScore?,
     val extratime : TimeScore?,
     val penalty : TimeScore?
-)
-
+): Parcelable
+@Parcelize
 data class TimeScore(
     val home : Int?,
     val away : Int?
-)
+) : Parcelable
 
 
 
